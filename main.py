@@ -1,8 +1,8 @@
 import azure_contact
 #import sensor_data
 
-azure_contact.azure_setup()
+connection = azure_contact.Connection()
 
-azure_contact.send_message("Connected!")
+connection.send_message("Connected!")
 
-azure_contact.azure_close()
+connection.close()
