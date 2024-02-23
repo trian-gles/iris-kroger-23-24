@@ -8,6 +8,10 @@ Clone this library:
 
 ```git clone https://github.com/trian-gles/iris-kroger-23-24.git```
 
-Run the main script:
+Run the setup script:
+```sudo chmod +x setup.sh```
+```./setup.sh```
 
+Run the main script:
+```source env/bin/activate```
 ```python main.py```
