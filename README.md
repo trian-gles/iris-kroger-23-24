@@ -12,6 +12,8 @@ Run the setup script:
 ```sudo chmod +x setup.sh```
 ```./setup.sh```
 
+Edit `device.json` replacing the connection string with your own
+
 Run the main script:
 ```source env/bin/activate```
 ```python main.py```
