@@ -2,21 +2,23 @@ import os
 import asyncio
 from azure.iot.device.aio import IoTHubDeviceClient
 
+
 class Connection:
-    def __init__(self):
-        self.conn_str = "HostName=iris-hub.azure-devices.net;DeviceId=kieran-computer;SharedAccessKey=GwQXIvCXF++fCvycARzDxeAyt/U13fhIuAIoTCAAMkE="
+    def __init__(self, conn_str):
+        self.conn_str = conn_str 
         self.device_client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
 
+    async def connect(self):
         # Connect the device client.
-        self.device_client.connect()
+        await self.device_client.connect()
         print("Connected to server")
         
-    def close():
-        self.device_client.shutdown()
+    async def close(self):
+        await self.device_client.shutdown()
         print("Closed server connection")
         
-    def send_message(message):
-        self.device_client.send_message(message)
+    async def send_message(self, message):
+        await self.device_client.send_message(message)
         print(f"Sent message : {message}")
 
 

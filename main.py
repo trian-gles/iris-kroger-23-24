@@ -1,8 +1,17 @@
 import azure_contact
 #import sensor_data
+import asyncio
+import json
 
-connection = azure_contact.Connection()
+async def main():
+	d = open('device.json')
+	conn_str = json.load(d)["conn_str"]
+	d.close()
 
-connection.send_message("Connected!")
+	connection = azure_contact.Connection(conn_str)
+	await connection.connect()
+	await connection.send_message("Connected!")
 
-connection.close()
+	await connection.close()
+
+asyncio.run(main())
