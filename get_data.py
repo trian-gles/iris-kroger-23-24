@@ -6,21 +6,6 @@ import ST7735
 from enviroplus import gas
 from subprocess import PIPE, Popen
 
-
-
-# Create ST7735 LCD display class
-st7735 = ST7735.ST7735(
-    port=0,
-    cs=1,
-    dc=9,
-    backlight=12,
-    rotation=270,
-    spi_speed_hz=10000000
-)
-
-# Initialize display
-st7735.begin()
-
 class Temp:
     def __init__(self):
         # Tuning factor for compensation. Decrease this number to adjust the
@@ -44,11 +29,4 @@ class Temp:
       return raw_temp - ((avg_cpu_temp - raw_temp) / self.factor)
 
 
-def get_humidity():
-  return bme280.get_humidity()
 
-def get_pressure():
-  return bme280.get_pressure()  
-
-def get_light():
-  return ltr559.get_lux()
