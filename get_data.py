@@ -42,7 +42,7 @@ class Temp:
         return float(output[output.index('=') + 1:output.rindex("'")])
 
     def get_temp(self):
-      cpu_temp = get_cpu_temperature()
+      cpu_temp = self.get_cpu_temperature()
       # Smooth out with some averaging to decrease jitter
       self.cpu_temps = self.cpu_temps[1:] + [cpu_temp]
       avg_cpu_temp = sum(cpu_temps) / float(len(cpu_temps))
