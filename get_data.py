@@ -6,6 +6,8 @@ import ST7735
 from enviroplus import gas
 from subprocess import PIPE, Popen
 
+from bme280 import BME280
+
 class Temp:
     def __init__(self):
         # Tuning factor for compensation. Decrease this number to adjust the
