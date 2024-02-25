@@ -32,20 +32,17 @@ async def main():
 	temp_obj = get_data.Temp()
 	bme280 = BME280()
 
-	try:
-		while True:
-			temp = temp_obj.get_temp()
-			pressure = bme280.get_pressure() 
-			humidity = bme280.get_humidity()
-			light = ltr559.get_lux()
-			last_send_time = time.time()
-			logging.info(f"Temp : {temp}, Pressure = {pressure}, Humidity = {humidity}, Light = {light}")
-			msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
-			await connection.send_message(json.dumps(msg_dict))
-			while time.time() - last_send_time < 10:
-				pass
-	except KeyboardInterrupt:
-		logging.info("User exiting")
+	while True:
+		temp = temp_obj.get_temp()
+		pressure = bme280.get_pressure() 
+		humidity = bme280.get_humidity()
+		light = ltr559.get_lux()
+		last_send_time = time.time()
+		logging.info(f"Temp : {temp}, Pressure = {pressure}, Humidity = {humidity}, Light = {light}")
+		msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
+		await connection.send_message(json.dumps(msg_dict))
+		while time.time() - last_send_time < 10:
+			pass
 		
 	
 
