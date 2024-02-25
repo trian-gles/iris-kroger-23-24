@@ -29,7 +29,7 @@ st7735 = ST7735.ST7735(
 st7735.begin()
 
 class Temp:
-    def __init__():
+    def __init__(self):
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
         self.factor = 2.25
