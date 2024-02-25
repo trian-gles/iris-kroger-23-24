@@ -33,7 +33,7 @@ class Temp:
         # Tuning factor for compensation. Decrease this number to adjust the
         # temperature down, and increase to adjust up
         self.factor = 2.25
-        self.cpu_temps = [get_cpu_temperature()] * 5
+        self.cpu_temps = [self.get_cpu_temperature()] * 5
         
 # Get the temperature of the CPU for compensation
     def get_cpu_temperature(self):
