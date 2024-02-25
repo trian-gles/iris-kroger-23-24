@@ -24,7 +24,7 @@ async def main():
 	
 	while True:
 		temp = temp_obj.get_temp()
-		logging.info($"Temp : {temp}")
+		logging.info(f"Temp : {temp}")
 		while time.time() - last_send_time < 10:
 			pass
 		
