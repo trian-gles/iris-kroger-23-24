@@ -19,8 +19,11 @@ async def main():
 	connection = azure_contact.Connection(conn_str)
 	await connection.connect()
 	last_send_time = time.time()
+
+	temp_obj = get_data.Temp()
+	
 	while True:
-		temp = get_data.get_temp()
+		temp = temp_obj.get_temp()
 		logging.info($"Temp : {temp}")
 		while time.time() - last_send_time < 10:
 			pass
