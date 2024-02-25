@@ -13,6 +13,21 @@ from bme280 import BME280
 from enviroplus import gas
 from subprocess import PIPE, Popen
 
+bme280 = BME280()
+
+# Create ST7735 LCD display class
+st7735 = ST7735.ST7735(
+    port=0,
+    cs=1,
+    dc=9,
+    backlight=12,
+    rotation=270,
+    spi_speed_hz=10000000
+)
+
+# Initialize display
+st7735.begin()
+
 # Get the temperature of the CPU for compensation
 def get_cpu_temperature():
     process = Popen(['vcgencmd', 'measure_temp'], stdout=PIPE, universal_newlines=True)
