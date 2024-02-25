@@ -24,8 +24,11 @@ async def main():
 	
 	while True:
 		temp = temp_obj.get_temp()
+		pressure = get_data.get_pressure()
+		humidity = get_data.get_humidity()
+		light = get_data.get_light()
 		last_send_time = time.time()
-		logging.info(f"Temp : {temp}")
+		logging.info(f"Temp : {temp}, Pressure = {pressure}, Humidity = {humidity}, Light = {light}")
 		while time.time() - last_send_time < 10:
 			pass
 		
