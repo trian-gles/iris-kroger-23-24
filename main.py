@@ -39,7 +39,7 @@ async def main():
 		light = ltr559.get_lux()
 		last_send_time = time.time()
 		logging.info(f"Temp : {temp}, Pressure = {pressure}, Humidity = {humidity}, Light = {light}")
-		msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light", light}
+		msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
 		await connection.send_message(json.dumps(msg_dict))
 		while time.time() - last_send_time < 10:
 			pass
