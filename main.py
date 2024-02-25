@@ -30,6 +30,7 @@ async def main():
 	
 
 	temp_obj = get_data.Temp()
+	bme280 = BME280()
 	
 	while True:
 		temp = temp_obj.get_temp()
