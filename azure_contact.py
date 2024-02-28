@@ -1,12 +1,21 @@
 import os
 import asyncio
 from azure.iot.device.aio import IoTHubDeviceClient
+from sys import getsizeof
 
 
 class Connection:
     def __init__(self, conn_str):
         self.conn_str = conn_str 
         self.device_client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
+        self.outage = false
+
+    def outage(self):
+        self.outage = True
+
+    def reconnect(self):
+        self.outage = False
+    
 
     async def connect(self):
         # Connect the device client.
@@ -18,8 +27,12 @@ class Connection:
         print("Closed server connection")
         
     async def send_message(self, message):
-        await self.device_client.send_message(message)
-        print(f"Sent message : {message}")
+        if outage:
+            return False
+        else:
+            size = getsizeof(message)
+            await self.device_client.send_message(message)
+            print(f"Sent message : {message}")
 
 
 async def main():
