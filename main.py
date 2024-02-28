@@ -39,7 +39,10 @@ async def main():
 		light = ltr559.get_lux()
 		last_send_time = time.time()
 		msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
-		await connection.send_message(json.dumps(msg_dict))
+		status = await connection.send_message(json.dumps(msg_dict))
+		if not status:
+			pass
+		
 		while time.time() - last_send_time < 10:
 			pass
 		
