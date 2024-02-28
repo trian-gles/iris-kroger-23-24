@@ -33,6 +33,7 @@ class Connection:
             size = getsizeof(message)
             await self.device_client.send_message(message)
             print(f"Sent message : {message}")
+            return True
 
 
 async def main():
