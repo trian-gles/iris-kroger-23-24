@@ -44,7 +44,7 @@ def main():
   camera = PiCamera()
   camera.resolution = (1024, 768)
   camera.start_preview()
-  await asyncio.sleep(2) # Warm up time
+  sleep(2) # Warm up time
   while True:
     Path("/imgs").mkdir(parents=True, exist_ok=True)
     filename = f"/imgs/{localtime()}.jpg"
@@ -72,7 +72,7 @@ def main():
         device_client.notify_blob_upload_status(
             storage_info["correlationId"], False, result.status_code, str(result)
         )
-    time.sleep(60)
+    sleep(60)
 
 if (__name__ == "__main__"):
   main()
