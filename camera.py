@@ -35,8 +35,8 @@ def store_blob(blob_info, file_name):
 
 def main():
   d = open('device.json')
-	conn_str = json.load(d)["conn_str"]
-	d.close()
+  conn_str = json.load(d)["conn_str"]
+  d.close()
   device_client = IoTHubDeviceClient.create_from_connection_string(conn_str)
   device_client.connect()
   
@@ -52,7 +52,7 @@ def main():
 
     storage_info = device_client.get_storage_info_for_blob(os.path.basename(filename))
 
-    success, result = store_blob(storage_info, os.path.abspath(filename)
+    success, result = store_blob(storage_info, os.path.abspath(filename))
 
     if success == True:
         print("Upload succeeded. Result is: \n") 
