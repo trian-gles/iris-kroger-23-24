@@ -7,7 +7,9 @@ git clone https://github.com/pimoroni/enviroplus-python
 cd enviroplus-python
 sudo ./install.sh
 cd ..
+pip install numpy
 pip install pms5003==0.0.5
 pip install st7735==0.0.5
 pip install azure-iot-device
+pip install enviroplus
 

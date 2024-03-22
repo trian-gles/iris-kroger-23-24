@@ -8,7 +8,7 @@ class Connection:
     def __init__(self, conn_str):
         self.conn_str = conn_str 
         self.device_client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
-        self.outage = false
+        self.outage = False
 
     def outage(self):
         self.outage = True
@@ -27,7 +27,7 @@ class Connection:
         print("Closed server connection")
         
     async def send_message(self, message):
-        if outage:
+        if self.outage:
             return False
         else:
             size = getsizeof(message)
