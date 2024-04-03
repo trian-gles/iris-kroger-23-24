@@ -2,6 +2,9 @@ import os
 import asyncio
 from azure.iot.device.aio import IoTHubDeviceClient
 from sys import getsizeof
+import random
+from local_storage import save_data, reconnect
+from queue import PriorityQueue
 
 
 class Connection:
@@ -9,13 +12,24 @@ class Connection:
         self.conn_str = conn_str 
         self.device_client = IoTHubDeviceClient.create_from_connection_string(self.conn_str)
         self.outage = False
+        self.faulty = False
+        self.queue = PriorityQueue()
 
     def outage(self):
         self.outage = True
 
     def reconnect(self):
         self.outage = False
-    
+
+    async def faulty_behaviour(self):
+        if random.randrange(0,3) > 1:
+            self.outage = not self.outage
+            print("toggling outage")
+            if (not self.outage):
+                print("retrieving cached data")
+                for d in reconnect():
+                    print(f"Requeuing {d}")
+                    self.queue.put((1, d))
 
     async def connect(self):
         # Connect the device client.
@@ -27,13 +41,22 @@ class Connection:
         print("Closed server connection")
         
     async def send_message(self, message):
+        if self.faulty:
+            await self.faulty_behaviour()
+
         if self.outage:
+            save_data(message)
             return False
         else:
-            size = getsizeof(message)
-            await self.device_client.send_message(message)
-            print(f"Sent message : {message}")
+            self.queue.put((1, message))            
+            print(f"Queueing message : {message}")
             return True
+
+    async def poll_queue(self):
+        if (self.queue.qsize()):
+            _, message = self.queue.get()
+            print(f"sending queued message:{message}")
+            await self.device_client.send_message(message)
 
 
 async def main():

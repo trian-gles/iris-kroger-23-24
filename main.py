@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import time
+import sys
 
 try:
     # Transitional fix for breaking change in LTR559
@@ -21,33 +22,35 @@ logging.basicConfig(
 
 
 async def main():
-	d = open('device.json')
-	conn_str = json.load(d)["conn_str"]
-	d.close()
-
-	connection = azure_contact.Connection(conn_str)
-	await connection.connect()
+    d = open('device.json')
+    conn_str = json.load(d)["conn_str"]
+    d.close()
+    connection = azure_contact.Connection(conn_str)    
+    if len(sys.argv) == 2 and sys.argv[1] == "faulty":
+            connection.faulty = True
+    await connection.connect()
 	
 
-	temp_obj = get_data.Temp()
-	bme280 = BME280()
-
-	while True:
-		temp = temp_obj.get_temp()
-		pressure = bme280.get_pressure() 
-		humidity = bme280.get_humidity()
-		light = ltr559.get_lux()
-		last_send_time = time.time()
-		msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
-		status = await connection.send_message(json.dumps(msg_dict))
-		if not status:
-			pass
+    temp_obj = get_data.Temp()
+    bme280 = BME280()
+    i = 4
+    while True:
+        if i == 0:
+            i = 4
+        temp = temp_obj.get_temp()
+        pressure = bme280.get_pressure() 
+        humidity = bme280.get_humidity()
+        light = ltr559.get_lux()
+        last_send_time = time.time()
+        msg_dict = {"temp" : temp, "pressure" : pressure, "humidity" : humidity, "light" : light}
+        if i == 4:
+           status = await connection.send_message(json.dumps(msg_dict))
+        await connection.poll_queue() 
 		
-		while time.time() - last_send_time < 10:
-			pass
-		
-	
+        while time.time() - last_send_time < 2:
+            pass
+        i -= 1
 
-	await connection.close()
+    await connection.close()
 
 asyncio.run(main())
