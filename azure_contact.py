@@ -29,7 +29,7 @@ class Connection:
                 print("retrieving cached data")
                 for d in reconnect():
                     print(f"Requeuing {d}")
-                    await self.queue.put((1, d))
+                    self.queue.put((1, d))
 
     async def connect(self):
         # Connect the device client.
